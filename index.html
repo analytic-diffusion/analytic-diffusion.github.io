@@ -4,180 +4,1092 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Analytic Understanding of Diffusion Models — CVPR 2026 Tutorial</title>
+  <meta name="description" content="A full-day CVPR 2026 tutorial on the analytic and theoretical foundations of diffusion model generalization. June 3–4, 2026 · Denver, CO." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
-    /* ── Reset & base ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: #0d1117;
-      color: #e6edf3;
-      line-height: 1.65;
+    :root {
+      --navy: #1a365d;
+      --navy-light: #2c5282;
+      --blue: #2b6cb0;
+      --blue-light: #3182ce;
+      --bg: #ffffff;
+      --bg-alt: #f7f8fa;
+      --text: #1a202c;
+      --text-secondary: #4a5568;
+      --text-muted: #718096;
+      --border: #e2e8f0;
+      --border-light: #edf2f7;
+      --serif: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+      --sans: 'Source Sans 3', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --max-w: 960px;
     }
 
-    a { color: #58a6ff; text-decoration: none; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* ── Hero ─────────────────────────────────────────────────── */
-    .hero {
-      background: linear-gradient(135deg, #0d1117 0%, #161b22 60%, #1f2937 100%);
-      border-bottom: 1px solid #30363d;
-      padding: 80px 24px 60px;
-      text-align: center;
+    /* ── Navigation ───────────────────────────────────── */
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
     }
 
-    .hero .badge {
-      display: inline-block;
-      background: #1f6feb;
-      color: #fff;
-      font-size: 0.78rem;
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-title {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy);
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.88rem;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      letter-spacing: 0.01em;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover {
+      color: var(--navy);
+      text-decoration: none;
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-toggle svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--navy);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+
+    /* ── Hero ─────────────────────────────────────────── */
+
+    .hero {
+      padding: 72px 24px 56px;
+      text-align: center;
+      background: var(--bg);
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--navy);
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 4px 14px;
-      border-radius: 20px;
-      margin-bottom: 24px;
+      padding: 5px 16px;
+      border-radius: 3px;
+      margin-bottom: 28px;
     }
 
     .hero h1 {
-      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-family: var(--serif);
+      font-size: clamp(1.75rem, 4.5vw, 2.8rem);
       font-weight: 700;
-      line-height: 1.2;
-      max-width: 820px;
+      color: var(--navy);
+      line-height: 1.25;
+      max-width: 780px;
       margin: 0 auto 20px;
-      background: linear-gradient(90deg, #58a6ff, #a5d6ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
-    .hero .subtitle {
+    .hero-subtitle {
       font-size: 1.1rem;
-      color: #8b949e;
-      max-width: 560px;
-      margin: 0 auto 36px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 12px;
+      line-height: 1.6;
     }
 
-    .hero .meta {
+    .hero-meta {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 24px;
-      font-size: 0.95rem;
-      color: #c9d1d9;
+      gap: 8px 24px;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-top: 16px;
     }
 
-    .hero .meta span {
-      display: flex;
+    .hero-meta span {
+      display: inline-flex;
       align-items: center;
       gap: 6px;
     }
 
-    .hero .meta svg {
-      width: 16px; height: 16px;
-      stroke: #58a6ff; fill: none;
-      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    .hero-meta svg {
+      width: 15px;
+      height: 15px;
+      stroke: var(--blue);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
     }
 
-    /* ── Layout ───────────────────────────────────────────────── */
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
+    /* ── Announcement strip ────────────────────────────── */
+
+    .announce {
+      max-width: var(--max-w);
+      margin: -20px auto 0;
       padding: 0 24px;
     }
 
-    section {
-      padding: 56px 0;
-      border-bottom: 1px solid #21262d;
+    .announce-inner {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px 20px;
+      margin-bottom: 32px;
     }
 
-    section:last-child { border-bottom: none; }
+    .announce-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--navy);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
 
-    h2 {
-      font-size: 1.4rem;
+    .announce-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .announce-text {
+      flex: 1;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .announce-text strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .announce-link {
+      font-size: 0.85rem;
       font-weight: 600;
-      color: #c9d1d9;
+      color: var(--blue);
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .announce-link svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    @media (max-width: 600px) {
+      .announce-inner { flex-wrap: wrap; }
+      .announce-link { margin-left: 50px; }
+    }
+
+    /* ── Banner Image ─────────────────────────────────── */
+
+    .banner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px 0;
+    }
+
+    .banner img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+
+    /* ── Section layout ───────────────────────────────── */
+
+    .section {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+
+    .section-alt {
+      background: var(--bg-alt);
+    }
+
+    .section-alt .section {
+      /* inherits max-width */
+    }
+
+    .section h2 {
+      font-family: var(--serif);
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .section-rule {
+      width: 48px;
+      height: 3px;
+      background: var(--blue);
+      border: none;
+      margin-bottom: 32px;
+      border-radius: 2px;
+    }
+
+    .section p {
+      color: var(--text);
+      max-width: 720px;
+      line-height: 1.75;
+    }
+
+    .section p + p {
+      margin-top: 16px;
+    }
+
+    /* ── Info strip ───────────────────────────────────── */
+
+    .info-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 32px;
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .info-item svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--blue);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    /* ── Speakers ──────────────────────────────────────── */
+
+    .speakers-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px 48px;
+      margin-top: 8px;
+    }
+
+    .speaker-card {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .speaker-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--border-light);
+      flex-shrink: 0;
+    }
+
+    .speaker-info h3 {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+
+    .speaker-info h3 a {
+      color: var(--navy);
+    }
+
+    .speaker-info h3 a:hover {
+      color: var(--blue);
+    }
+
+    .speaker-affiliation {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .speaker-bio {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Schedule ──────────────────────────────────────── */
+
+    .schedule-block {
+      margin-bottom: 40px;
+    }
+
+    .schedule-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .schedule-block h3 {
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 16px;
+    }
+
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .schedule-table tr {
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .schedule-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .schedule-table td {
+      padding: 14px 0;
+      vertical-align: top;
+      font-size: 0.95rem;
+    }
+
+    .schedule-time {
+      width: 130px;
+      font-weight: 600;
+      color: var(--navy);
+      white-space: nowrap;
+      padding-right: 20px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .schedule-title {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .schedule-desc {
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .schedule-speaker {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    tr.schedule-break td {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 10px 0;
+    }
+
+    tr.schedule-lunch td {
+      color: var(--text-muted);
+      font-weight: 600;
+      font-style: italic;
+      padding: 18px 0;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* ── Framework section ─────────────────────────────── */
+
+    .framework-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 40px;
+      margin-top: 8px;
+    }
+
+    .section-alt .framework-box {
+      background: #fff;
+    }
+
+    .framework-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .framework-header svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--navy);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .framework-header h3 {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .framework-desc {
+      color: var(--text-secondary);
+      line-height: 1.7;
       margin-bottom: 24px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #1f6feb;
-      display: inline-block;
+      max-width: 680px;
     }
 
-    /* ── Coming-soon card ─────────────────────────────────────── */
-    .coming-soon {
-      background: #161b22;
-      border: 1px dashed #30363d;
-      border-radius: 12px;
-      padding: 40px 32px;
-      text-align: center;
-      color: #8b949e;
+    .code-block {
+      background: #1a202c;
+      color: #e2e8f0;
+      padding: 16px 20px;
+      border-radius: 6px;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.85rem;
+      overflow-x: auto;
+      margin-bottom: 24px;
+      line-height: 1.6;
     }
 
-    .coming-soon .icon {
-      font-size: 2.4rem;
-      margin-bottom: 12px;
+    .code-block .prompt { color: #a0aec0; }
+    .code-block .flag { color: #90cdf4; }
+
+    .code-wrapper {
+      position: relative;
     }
 
-    .coming-soon p {
-      font-size: 1rem;
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #a0aec0;
+      border-radius: 4px;
+      padding: 5px 10px;
+      font-size: 0.75rem;
+      font-family: var(--sans);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
     }
 
-    /* ── Abstract ─────────────────────────────────────────────── */
-    .abstract p {
-      color: #c9d1d9;
-      max-width: 760px;
+    .copy-btn:hover {
+      background: rgba(255,255,255,0.18);
+      color: #e2e8f0;
     }
 
-    /* ── Footer ───────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--navy);
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 10px 24px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn:hover {
+      background: var(--navy-light);
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--navy);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      background: var(--bg-alt);
+      border-color: var(--navy-light);
+      color: var(--navy);
+    }
+
+    .framework-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Resources ─────────────────────────────────────── */
+
+    .resources-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .resources-list li a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-weight: 500;
+      font-size: 0.93rem;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .resources-list li a:hover {
+      border-color: var(--blue);
+      box-shadow: 0 1px 6px rgba(43,108,176,0.1);
+      text-decoration: none;
+    }
+
+    .resources-list li a svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--blue);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .resource-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* ── Footer ────────────────────────────────────────── */
+
     footer {
       text-align: center;
-      padding: 28px 24px;
-      color: #484f58;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
       font-size: 0.85rem;
-      border-top: 1px solid #21262d;
+    }
+
+    /* ── Responsive ────────────────────────────────────── */
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 56px;
+        left: 0;
+        right: 0;
+        background: rgba(255,255,255,0.98);
+        backdrop-filter: blur(8px);
+        padding: 16px 24px;
+        gap: 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-toggle { display: block; }
+
+      .hero { padding: 48px 24px 40px; }
+      .hero h1 { font-size: 1.6rem; }
+
+      .speakers-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .schedule-time { width: 100px; font-size: 0.85rem; }
+      .schedule-table td { font-size: 0.88rem; padding: 10px 0; }
+
+      .framework-box { padding: 24px; }
+      .info-strip { gap: 10px 20px; }
+
+      .section { padding: 48px 24px; }
+
+      .resources-list { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .speaker-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .speaker-avatar { width: 80px; height: 80px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ── Hero ─────────────────────────────────────────────────── -->
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <span class="nav-title">CVPR 2026 Tutorial</span>
+      <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle navigation">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#speakers">Speakers</a></li>
+        <li><a href="#schedule">Schedule</a></li>
+        <li><a href="#framework">Framework</a></li>
+        <li><a href="#resources">Resources</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
   <header class="hero">
-    <div class="badge">CVPR 2026 · Tutorial</div>
+    <div class="badge">CVPR 2026 &middot; Full-Day Tutorial</div>
     <h1>Analytic Understanding of Diffusion Models</h1>
-    <p class="subtitle">A deep dive into the mathematical foundations and analytic perspectives behind modern diffusion-based generative models.</p>
-    <div class="meta">
+    <p class="hero-subtitle">
+      A deep dive into the mathematical foundations and analytic perspectives
+      behind modern diffusion-based generative models.
+    </p>
+    <div class="hero-meta">
       <span>
-        <!-- calendar icon -->
         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        CVPR 2026
+        June 3&ndash;4, 2026
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Denver Convention Center
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        8:30 AM &ndash; 5:00 PM
       </span>
     </div>
   </header>
 
-  <main class="container">
-
-    <!-- ── Overview ─────────────────────────────────────────────── -->
-    <section class="abstract">
-      <h2>Overview</h2>
-      <p>
-        This tutorial is designed to provide the required mathematical background to develop the intuition behind generalization of deep diffusion models. Starting from the fundamentals of diffusion, we build up to the current understanding of their generalization mechanisms in the most recent papers in the field.
-      </p>
-    </section>
-
-    <!-- ── Schedule ─────────────────────────────────────────────── -->
-    <section>
-      <h2>Schedule</h2>
-      <div class="coming-soon">
-        <div class="icon">🗓️</div>
-        <p>Detailed schedule coming soon.</p>
+  <!-- Framework announcement -->
+  <div class="announce">
+    <div class="announce-inner">
+      <div class="announce-icon">
+        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
       </div>
-    </section>
+      <div class="announce-text">
+        <strong>New:</strong> We are releasing <strong>Analytic Diffusion Studio</strong> &mdash; a unified framework for training-free analytical diffusion models.
+      </div>
+      <a href="https://github.com/analytic-diffusion/analytic-diffusion-studio" class="announce-link">
+        View on GitHub <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+  </div>
 
-  </main>
+  <!-- Banner -->
+  <div class="banner">
+    <img src="public/avatars/TutorialPreview.png" alt="Tutorial preview: comparison of trained diffusion models versus analytic diffusion approaches across datasets" />
+  </div>
 
+  <!-- Overview -->
+  <div id="overview" class="section">
+    <h2>Overview</h2>
+    <hr class="section-rule" />
+    <p>
+      Denoising diffusion models have achieved state-of-the-art results for generative modeling across images, video, and audio. Yet analysis of the training objective reveals a paradox: the objective admits a unique closed-form solution that is a function of the training data alone&mdash;and this solution can only reproduce training examples, exhibiting perfect memorization.
+    </p>
+    <p>
+      How, then, do deep diffusion models generalize? This tutorial explores the emerging family of <em>analytical diffusion models</em> that shed light on this question. Starting from the fundamentals, we build toward the current understanding of generalization mechanisms&mdash;score smoothing, inductive biases of neural architectures, training dynamics, and data geometry&mdash;all through the lens of optimal denoising.
+    </p>
+    <p>
+      The tutorial combines lectures with hands-on Jupyter notebook sessions so that attendees can run experiments, probe the theory, and build intuition firsthand.
+    </p>
+    <div class="info-strip">
+      <div class="info-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Full day (8:30 AM &ndash; 5:00 PM)
+      </div>
+      <div class="info-item">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        4 speakers
+      </div>
+      <div class="info-item">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Hands-on notebook sessions
+      </div>
+      <div class="info-item">
+        <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5"/></svg>
+        For researchers with ML background
+      </div>
+    </div>
+  </div>
+
+  <!-- Speakers -->
+  <div class="section-alt">
+    <div id="speakers" class="section">
+      <h2>Speakers</h2>
+      <hr class="section-rule" />
+      <div class="speakers-grid">
+
+        <div class="speaker-card">
+          <img class="speaker-avatar" src="public/avatars/artem.png" alt="Artem Lukoianov" />
+          <div class="speaker-info">
+            <h3><a href="https://lukoianov.com/">Artem Lukoianov</a></h3>
+            <div class="speaker-affiliation">MIT CSAIL</div>
+            <div class="speaker-bio">
+              PhD student, author of <em>&ldquo;Locality in Image Diffusion Models Emerges from Data Statistics&rdquo;</em> (Spotlight, NeurIPS 2025).
+            </div>
+          </div>
+        </div>
+
+        <div class="speaker-card">
+          <img class="speaker-avatar" src="public/avatars/chenyang.png" alt="Chenyang Yuan" />
+          <div class="speaker-info">
+            <h3><a href="https://chenyang.co/">Chenyang Yuan</a></h3>
+            <div class="speaker-affiliation">Toyota Research Institute</div>
+            <div class="speaker-bio">
+              Research Scientist and creator of
+              <a href="https://github.com/yuanchenyang/smalldiffusion">smalldiffusion</a>,
+              an open-source library for controlled diffusion experiments.
+            </div>
+          </div>
+        </div>
+
+        <div class="speaker-card">
+          <img class="speaker-avatar" src="public/avatars/chris.jpg" alt="Christopher Scarvelis" />
+          <div class="speaker-info">
+            <h3><a href="https://cscarv.github.io/">Christopher Scarvelis</a></h3>
+            <div class="speaker-affiliation">MIT CSAIL</div>
+            <div class="speaker-bio">
+              PhD student and author of <em>&ldquo;Closed-Form Diffusion Models&rdquo;</em> (TMLR, 2023).
+            </div>
+          </div>
+        </div>
+
+        <div class="speaker-card">
+          <img class="speaker-avatar" src="public/avatars/mason.png" alt="Mason Kamb" />
+          <div class="speaker-info">
+            <h3><a href="https://scholar.google.com/citations?user=H-yl_JMAAAAJ&hl=en">Mason Kamb</a></h3>
+            <div class="speaker-affiliation">Stanford University</div>
+            <div class="speaker-bio">
+              PhD student and first author of <em>&ldquo;An Analytic Theory of Creativity in Convolutional Diffusion Models&rdquo;</em> (ICML 2025, Oral).
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Schedule -->
+  <div id="schedule" class="section">
+    <h2>Schedule</h2>
+    <hr class="section-rule" />
+    <p style="margin-bottom: 32px;">
+      The tutorial runs for a full day and combines lectures with interactive hands-on sessions.
+      The schedule below is preliminary and subject to minor adjustments.
+    </p>
+
+    <!-- Morning -->
+    <div class="schedule-block">
+      <h3>Morning Session &mdash; 8:30 AM &ndash; 12:00 PM</h3>
+      <table class="schedule-table">
+        <tr>
+          <td class="schedule-time">8:30 &ndash; 8:45</td>
+          <td>
+            <div class="schedule-title">Welcome and Introduction</div>
+            <div class="schedule-desc">Tutorial overview, diffusion crash course, and notation.</div>
+            <div class="schedule-speaker">All speakers</div>
+          </td>
+        </tr>
+        <tr>
+          <td class="schedule-time">8:45 &ndash; 9:30</td>
+          <td>
+            <div class="schedule-title">Hands-on: Paradoxes of Diffusion Models</div>
+            <div class="schedule-desc">Interactive experiments with closed-form score denoisers, optimal sampling, memorization, and training-set stability.</div>
+            <div class="schedule-speaker">Chenyang Yuan</div>
+          </td>
+        </tr>
+        <tr class="schedule-break">
+          <td class="schedule-time">9:30 &ndash; 9:45</td>
+          <td>Break</td>
+        </tr>
+        <tr>
+          <td class="schedule-time">9:45 &ndash; 10:45</td>
+          <td>
+            <div class="schedule-title">Fundamentals of Diffusion Models</div>
+            <div class="schedule-desc">Forward and reverse processes, score matching, denoising objectives. Our analytical lens: studying the denoiser.</div>
+            <div class="schedule-speaker">Chenyang Yuan</div>
+          </td>
+        </tr>
+        <tr class="schedule-break">
+          <td class="schedule-time">10:45 &ndash; 11:00</td>
+          <td>Break</td>
+        </tr>
+        <tr>
+          <td class="schedule-time">11:00 &ndash; 12:00</td>
+          <td>
+            <div class="schedule-title">Score Smoothing and Effective Linear Structures</div>
+            <div class="schedule-desc">How underfitting leads to score smoothing. Connections to linear models and closed-form analysis.</div>
+            <div class="schedule-speaker">Christopher Scarvelis</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Lunch -->
+    <div class="schedule-block">
+      <table class="schedule-table">
+        <tr class="schedule-lunch">
+          <td class="schedule-time">12:00 &ndash; 1:30</td>
+          <td>Lunch</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Afternoon -->
+    <div class="schedule-block">
+      <h3>Afternoon Session &mdash; 1:30 PM &ndash; 5:00 PM</h3>
+      <table class="schedule-table">
+        <tr>
+          <td class="schedule-time">1:30 &ndash; 2:30</td>
+          <td>
+            <div class="schedule-title">Wiener Filters and Analytical Denoisers + Hands-on</div>
+            <div class="schedule-desc">Data covariance, Wiener filters, locality, and PCA-based denoisers. Hands-on experimentation with the Analytic Diffusion Studio.</div>
+            <div class="schedule-speaker">Artem Lukoianov</div>
+          </td>
+        </tr>
+        <tr>
+          <td class="schedule-time">2:30 &ndash; 3:00</td>
+          <td>
+            <div class="schedule-title">Guidance and Analytical Models</div>
+            <div class="schedule-desc">Convolutional inductive biases, equivariance, and how architecture enables creativity beyond the training set.</div>
+            <div class="schedule-speaker">Mason Kamb</div>
+          </td>
+        </tr>
+        <tr class="schedule-break">
+          <td class="schedule-time">3:00 &ndash; 3:15</td>
+          <td>Break</td>
+        </tr>
+        <tr>
+          <td class="schedule-time">3:15 &ndash; 4:15</td>
+          <td>
+            <div class="schedule-title">Invited Talk</div>
+            <div class="schedule-desc">Speaker to be announced.</div>
+          </td>
+        </tr>
+        <tr class="schedule-break">
+          <td class="schedule-time">4:15 &ndash; 4:30</td>
+          <td>Break</td>
+        </tr>
+        <tr>
+          <td class="schedule-time">4:30 &ndash; 5:00</td>
+          <td>
+            <div class="schedule-title">Open Questions and Discussion</div>
+            <div class="schedule-desc">Panel discussion on open problems, future directions, and audience Q&amp;A.</div>
+            <div class="schedule-speaker">All speakers</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Framework -->
+  <div class="section-alt">
+    <div id="framework" class="section">
+      <h2>Analytic Diffusion Studio</h2>
+      <hr class="section-rule" />
+      <div class="framework-box">
+        <div class="framework-header">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          <h3>A Unified Framework for Training-Free Diffusion Models</h3>
+        </div>
+        <p class="framework-desc">
+          Analytic Diffusion Studio is a modular codebase for training-free analytical diffusion models.
+          Use it to reproduce the methods discussed in this tutorial, run your own experiments, or build new analytical denoisers&mdash;no training required, just <code>uv run</code>.
+        </p>
+        <div class="code-wrapper">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre class="code-block"><span class="prompt">$</span> git clone https://github.com/analytic-diffusion/analytic-diffusion-studio.git
+<span class="prompt">$</span> cd analytic-diffusion-studio
+<span class="prompt">$</span> uv run generate.py <span class="flag">--config</span> configs/pca_locality/celeba_hq.yaml</pre>
+        </div>
+        <div class="framework-buttons">
+          <a href="https://github.com/analytic-diffusion/analytic-diffusion-studio" class="btn">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            View on GitHub
+          </a>
+          <a href="https://huggingface.co/spaces/ottogin/locality-diffusion-demo" class="btn btn-outline">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Try the Demo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resources -->
+  <div id="resources" class="section">
+    <h2>Additional Resources</h2>
+    <hr class="section-rule" />
+    <ul class="resources-list">
+      <li>
+        <a href="https://www.practical-diffusion.org/">
+          <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          <div>
+            MIT 6.S183 Course Materials
+            <span class="resource-meta">A Practical Introduction to Diffusion Models &middot; IAP 2026</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.youtube.com/@MIT-6.S183">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <div>
+            Lecture Recordings
+            <span class="resource-meta">MIT 6.S183 YouTube channel</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2310.12395">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <div>
+            Closed-Form Diffusion Models
+            <span class="resource-meta">Scarvelis et al. &middot; TMLR 2023</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2509.09672">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <div>
+            Locality in Diffusion from Data Statistics
+            <span class="resource-meta">Lukoianov et al. &middot; NeurIPS 2025</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2402.16991">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <div>
+            Analytic Theory of Creativity in Convolutional Diffusion
+            <span class="resource-meta">Kamb et al. &middot; ICML 2025 Oral</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/yuanchenyang/smalldiffusion">
+          <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          <div>
+            smalldiffusion
+            <span class="resource-meta">Lightweight library for diffusion experiments</span>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
   <footer>
-    &copy; 2026 Analytic Diffusion Tutorial — CVPR 2026
+    &copy; 2026 Analytic Understanding of Diffusion Models &mdash; CVPR 2026 Tutorial
   </footer>
 
+  <script>
+    function copyCode(btn) {
+      var text = btn.nextElementSibling.textContent.replace(/^\$ /gm, '');
+      navigator.clipboard.writeText(text).then(function() {
+        btn.textContent = 'Copied!';
+        setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+      });
+    }
+  </script>
 </body>
 </html>
