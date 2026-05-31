@@ -725,9 +725,9 @@
         <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
       <ul class="nav-links">
+        <li><a href="#schedule">Schedule</a></li>
         <li><a href="#overview">Overview</a></li>
         <li><a href="#speakers">Speakers</a></li>
-        <li><a href="#schedule">Schedule</a></li>
         <li><a href="#framework">Framework</a></li>
         <li><a href="#resources">Resources</a></li>
       </ul>
@@ -776,6 +776,106 @@
   <!-- Banner -->
   <div class="banner">
     <img src="public/avatars/TutorialPreview.png" alt="Tutorial preview: comparison of trained diffusion models versus analytic diffusion approaches across datasets" />
+  </div>
+
+  <!-- Schedule -->
+  <div id="schedule" class="section">
+    <h2>Schedule</h2>
+    <hr class="section-rule" />
+    <p style="margin-bottom: 32px;">
+      The tutorial runs for a full day and combines lectures with interactive hands-on sessions.
+      The schedule below is preliminary and subject to minor adjustments.
+    </p>
+
+    <!-- Morning -->
+    <div class="schedule-block">
+      <h3>Morning Session &mdash; 8:30 &ndash; 12:00</h3>
+      <table class="schedule-table">
+        <tr>
+          <td class="schedule-time">8:30 &ndash; 9:10</td>
+          <td>
+            <div class="schedule-title">Intro + notations</div>
+          </td>
+        </tr>
+        <tr class="schedule-break">
+          <td class="schedule-time">9:10 &ndash; 9:20</td>
+          <td>Coffee Break</td>
+        </tr>
+        <tr>
+          <td class="schedule-time">9:20 &ndash; 10:30</td>
+          <td>
+            <div class="schedule-title">What is the ideal denoiser? How smoothing bias changes it?</div>
+          </td>
+        </tr>
+        <tr class="schedule-break">
+          <td class="schedule-time">10:30 &ndash; 10:50</td>
+          <td>Coffee Break</td>
+        </tr>
+        <tr>
+          <td class="schedule-time">10:50 &ndash; 12:00</td>
+          <td>
+            <div class="schedule-title">How far can the linear perspective get us?</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Lunch -->
+    <div class="schedule-block">
+      <table class="schedule-table">
+        <tr class="schedule-lunch">
+          <td class="schedule-time">12:00 &ndash; 13:30</td>
+          <td>Lunch Break</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Afternoon -->
+    <div class="schedule-block">
+      <h3>Afternoon Session &mdash; 13:30 &ndash; 17:00</h3>
+      <table class="schedule-table">
+        <tr>
+          <td class="schedule-time">13:30 &ndash; 14:30</td>
+          <td>
+            <div class="schedule-title">Seeing generalization through locality</div>
+          </td>
+        </tr>
+        <tr class="schedule-break">
+          <td class="schedule-time">14:30 &ndash; 14:40</td>
+          <td>Coffee Break</td>
+        </tr>
+        <tr>
+          <td class="schedule-time">14:40 &ndash; 15:10</td>
+          <td>
+            <div class="schedule-title">Why do diffusion models learn to be local?</div>
+          </td>
+        </tr>
+        <tr class="schedule-break">
+          <td class="schedule-time">15:10 &ndash; 15:20</td>
+          <td>Coffee Break</td>
+        </tr>
+        <tr>
+          <td class="schedule-time">15:20 &ndash; 16:00</td>
+          <td>
+            <div class="schedule-title">What representations do diffusion models learn?</div>
+          </td>
+        </tr>
+        <tr class="schedule-break">
+          <td class="schedule-time">16:00 &ndash; 16:10</td>
+          <td>Coffee Break</td>
+        </tr>
+        <tr>
+          <td class="schedule-time">16:10 &ndash; 17:00</td>
+          <td>
+            <div class="schedule-title">Open question in the field + Q&amp;A</div>
+          </td>
+        </tr>
+        <tr class="schedule-break">
+          <td class="schedule-time">17:00 &ndash;</td>
+          <td>Social and chat</td>
+        </tr>
+      </table>
+    </div>
   </div>
 
   <!-- Overview -->
@@ -876,119 +976,6 @@
         </div>
 
       </div>
-    </div>
-  </div>
-
-  <!-- Schedule -->
-  <div id="schedule" class="section">
-    <h2>Schedule</h2>
-    <hr class="section-rule" />
-    <p style="margin-bottom: 32px;">
-      The tutorial runs for a full day and combines lectures with interactive hands-on sessions.
-      The schedule below is preliminary and subject to minor adjustments.
-    </p>
-
-    <!-- Morning -->
-    <div class="schedule-block">
-      <h3>Morning Session &mdash; 8:30 AM &ndash; 12:00 PM</h3>
-      <table class="schedule-table">
-        <tr>
-          <td class="schedule-time">8:30 &ndash; 8:45</td>
-          <td>
-            <div class="schedule-title">Welcome and Introduction</div>
-            <div class="schedule-desc">Tutorial overview, diffusion crash course, and notation.</div>
-            <div class="schedule-speaker">All speakers</div>
-          </td>
-        </tr>
-        <tr>
-          <td class="schedule-time">8:45 &ndash; 9:30</td>
-          <td>
-            <div class="schedule-title">Hands-on: Paradoxes of Diffusion Models</div>
-            <div class="schedule-desc">Interactive experiments with closed-form score denoisers, optimal sampling, memorization, and training-set stability.</div>
-            <div class="schedule-speaker">Chenyang Yuan</div>
-          </td>
-        </tr>
-        <tr class="schedule-break">
-          <td class="schedule-time">9:30 &ndash; 9:45</td>
-          <td>Break</td>
-        </tr>
-        <tr>
-          <td class="schedule-time">9:45 &ndash; 10:45</td>
-          <td>
-            <div class="schedule-title">Fundamentals of Diffusion Models</div>
-            <div class="schedule-desc">Forward and reverse processes, score matching, denoising objectives. Our analytical lens: studying the denoiser.</div>
-            <div class="schedule-speaker">Chenyang Yuan</div>
-          </td>
-        </tr>
-        <tr class="schedule-break">
-          <td class="schedule-time">10:45 &ndash; 11:00</td>
-          <td>Break</td>
-        </tr>
-        <tr>
-          <td class="schedule-time">11:00 &ndash; 12:00</td>
-          <td>
-            <div class="schedule-title">Score Smoothing and Effective Linear Structures</div>
-            <div class="schedule-desc">How underfitting leads to score smoothing. Connections to linear models and closed-form analysis.</div>
-            <div class="schedule-speaker">Christopher Scarvelis</div>
-          </td>
-        </tr>
-      </table>
-    </div>
-
-    <!-- Lunch -->
-    <div class="schedule-block">
-      <table class="schedule-table">
-        <tr class="schedule-lunch">
-          <td class="schedule-time">12:00 &ndash; 1:30</td>
-          <td>Lunch</td>
-        </tr>
-      </table>
-    </div>
-
-    <!-- Afternoon -->
-    <div class="schedule-block">
-      <h3>Afternoon Session &mdash; 1:30 PM &ndash; 5:00 PM</h3>
-      <table class="schedule-table">
-        <tr>
-          <td class="schedule-time">1:30 &ndash; 2:30</td>
-          <td>
-            <div class="schedule-title">Wiener Filters and Analytical Denoisers + Hands-on</div>
-            <div class="schedule-desc">Data covariance, Wiener filters, locality, and PCA-based denoisers. Hands-on experimentation with the Analytic Diffusion Studio.</div>
-            <div class="schedule-speaker">Artem Lukoianov</div>
-          </td>
-        </tr>
-        <tr>
-          <td class="schedule-time">2:30 &ndash; 3:00</td>
-          <td>
-            <div class="schedule-title">Guidance and Analytical Models</div>
-            <div class="schedule-desc">Convolutional inductive biases, equivariance, and how architecture enables creativity beyond the training set.</div>
-            <div class="schedule-speaker">Mason Kamb</div>
-          </td>
-        </tr>
-        <tr class="schedule-break">
-          <td class="schedule-time">3:00 &ndash; 3:15</td>
-          <td>Break</td>
-        </tr>
-        <tr>
-          <td class="schedule-time">3:15 &ndash; 4:15</td>
-          <td>
-            <div class="schedule-title">Invited Talk</div>
-            <div class="schedule-desc">Speaker to be announced.</div>
-          </td>
-        </tr>
-        <tr class="schedule-break">
-          <td class="schedule-time">4:15 &ndash; 4:30</td>
-          <td>Break</td>
-        </tr>
-        <tr>
-          <td class="schedule-time">4:30 &ndash; 5:00</td>
-          <td>
-            <div class="schedule-title">Open Questions and Discussion</div>
-            <div class="schedule-desc">Panel discussion on open problems, future directions, and audience Q&amp;A.</div>
-            <div class="schedule-speaker">All speakers</div>
-          </td>
-        </tr>
-      </table>
     </div>
   </div>
 
