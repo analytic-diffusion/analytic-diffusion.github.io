@@ -186,19 +186,23 @@
     .announce-inner {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
       background: var(--bg-alt);
       border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 14px 20px;
+      border-radius: 5px;
+      padding: 8px 14px;
+      margin-bottom: 10px;
+    }
+
+    .announce-inner:last-child {
       margin-bottom: 32px;
     }
 
     .announce-icon {
-      width: 36px;
-      height: 36px;
+      width: 26px;
+      height: 26px;
       background: var(--navy);
-      border-radius: 6px;
+      border-radius: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -206,8 +210,8 @@
     }
 
     .announce-icon svg {
-      width: 18px;
-      height: 18px;
+      width: 14px;
+      height: 14px;
       stroke: #fff;
       fill: none;
       stroke-width: 2;
@@ -217,9 +221,9 @@
 
     .announce-text {
       flex: 1;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       color: var(--text-secondary);
-      line-height: 1.5;
+      line-height: 1.45;
     }
 
     .announce-text strong {
@@ -228,7 +232,7 @@
     }
 
     .announce-link {
-      font-size: 0.85rem;
+      font-size: 0.78rem;
       font-weight: 600;
       color: var(--blue);
       white-space: nowrap;
@@ -239,8 +243,8 @@
     }
 
     .announce-link svg {
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2.5;
@@ -250,7 +254,7 @@
 
     @media (max-width: 600px) {
       .announce-inner { flex-wrap: wrap; }
-      .announce-link { margin-left: 50px; }
+      .announce-link { margin-left: 36px; }
     }
 
     /* ── Banner Image ─────────────────────────────────── */
@@ -758,8 +762,19 @@
     </div>
   </header>
 
-  <!-- Framework announcement -->
+  <!-- Announcements -->
   <div class="announce">
+    <div class="announce-inner">
+      <div class="announce-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="announce-text">
+        <strong>Join us:</strong> Analytic Diffusion Social &mdash; an informal gathering <strong>5&ndash;7 PM on June 4</strong>, right after the tutorial, on the terrace outside the Bluebird Ballroom (3rd floor).
+      </div>
+      <a href="https://luma.com/nqd4kkml" class="announce-link">
+        RSVP on Luma <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
     <div class="announce-inner">
       <div class="announce-icon">
         <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
@@ -869,9 +884,12 @@
             <div class="schedule-title">Open question in the field + Q&amp;A</div>
           </td>
         </tr>
-        <tr class="schedule-break">
-          <td class="schedule-time">17:00 &ndash;</td>
-          <td>Social and chat</td>
+        <tr>
+          <td class="schedule-time">17:00 &ndash; 19:00</td>
+          <td>
+            <div class="schedule-title">Analytic Diffusion Social</div>
+            <div class="schedule-desc">An informal gathering to chat about analytic diffusion models, right after the tutorial. On the terrace outside the Bluebird Ballroom (3rd floor, west-most side of the terrace). <a href="https://luma.com/nqd4kkml">RSVP on Luma</a>.</div>
+          </td>
         </tr>
       </table>
     </div>
