@@ -423,6 +423,7 @@
     .schedule-table {
       width: 100%;
       border-collapse: collapse;
+      table-layout: fixed;
     }
 
     .schedule-table tr {
@@ -434,28 +435,34 @@
     }
 
     .schedule-table td {
-      padding: 14px 0;
+      padding: 16px 0;
       vertical-align: top;
       font-size: 0.95rem;
     }
 
     .schedule-time {
-      width: 130px;
+      width: 124px;
       font-weight: 600;
+      font-size: 0.88rem;
       color: var(--navy);
       white-space: nowrap;
-      padding-right: 20px;
+      padding-right: 24px;
+      padding-top: 17px;
       font-variant-numeric: tabular-nums;
+      letter-spacing: 0.01em;
     }
 
     .schedule-title {
       font-weight: 600;
       color: var(--text);
+      line-height: 1.4;
     }
 
     .schedule-desc {
       color: var(--text-secondary);
       font-weight: 400;
+      font-size: 0.9rem;
+      margin-top: 4px;
     }
 
     .schedule-speaker {
@@ -464,18 +471,67 @@
       margin-top: 3px;
     }
 
+    .schedule-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .schedule-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 4px 11px;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+
+    .schedule-link:hover {
+      border-color: var(--blue);
+      background: #fff;
+      color: var(--navy);
+      text-decoration: none;
+    }
+
+    .schedule-link svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
     tr.schedule-break td {
       color: var(--text-muted);
       font-style: italic;
-      padding: 10px 0;
+      font-size: 0.85rem;
+      padding: 9px 0;
+    }
+
+    tr.schedule-break .schedule-time {
+      padding-top: 9px;
+      font-size: 0.82rem;
     }
 
     tr.schedule-lunch td {
       color: var(--text-muted);
       font-weight: 600;
       font-style: italic;
-      padding: 18px 0;
+      padding: 16px 0;
       border-bottom: 2px solid var(--border);
+    }
+
+    tr.schedule-lunch .schedule-time {
+      padding-top: 16px;
     }
 
     /* ── Framework section ─────────────────────────────── */
@@ -809,6 +865,12 @@
           <td class="schedule-time">8:30 &ndash; 9:10</td>
           <td>
             <div class="schedule-title">Intro + notations</div>
+            <div class="schedule-links">
+              <a class="schedule-link" href="https://docs.google.com/presentation/d/1HEXJD60anmrCOJZaaB-917AwGVhYgTHg9FHJQ_waBdc/edit?usp=sharing">
+                <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                Slides
+              </a>
+            </div>
           </td>
         </tr>
         <tr class="schedule-break">
@@ -819,6 +881,20 @@
           <td class="schedule-time">9:20 &ndash; 10:30</td>
           <td>
             <div class="schedule-title">What is the optimal denoiser? What is the impact of smoothing?</div>
+            <div class="schedule-links">
+              <a class="schedule-link" href="https://docs.google.com/presentation/d/1O8JBe-uJ4XsVfQLseJGwbT-Ja2ZntbZ74g1ImJfXt5c/edit?usp=sharing">
+                <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                Slides
+              </a>
+              <a class="schedule-link" href="https://colab.research.google.com/drive/14_W9XYynHiIHraANOuYUzIXkm5gKBvhB">
+                <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Colab: Optimal denoiser
+              </a>
+              <a class="schedule-link" href="https://colab.research.google.com/drive/1kt5xf2PQmrP60mlZLGr_POaxGXnteZg2?usp=sharing">
+                <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Colab: Smoothing
+              </a>
+            </div>
           </td>
         </tr>
         <tr class="schedule-break">
@@ -829,6 +905,16 @@
           <td class="schedule-time">10:50 &ndash; 12:00</td>
           <td>
             <div class="schedule-title">How far can the linear perspective get us?</div>
+            <div class="schedule-links">
+              <a class="schedule-link" href="https://docs.google.com/presentation/d/1o8BAmLL3nDz7Q7TS87MsnmYDvR92Vl_F/edit?usp=sharing">
+                <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                Slides
+              </a>
+              <a class="schedule-link" href="https://colab.research.google.com/drive/15Z6urlavvaBsrUuaJV4BFg6gK5Xfh5Xh">
+                <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Colab
+              </a>
+            </div>
           </td>
         </tr>
       </table>
@@ -852,6 +938,16 @@
           <td class="schedule-time">13:30 &ndash; 14:30</td>
           <td>
             <div class="schedule-title">Seeing generalization through locality</div>
+            <div class="schedule-links">
+              <a class="schedule-link" href="https://docs.google.com/presentation/d/1O7nO3-erOxITI3HaPv6ZEITgyM79CbG8FOSRkNVxox8/edit?usp=sharing">
+                <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                Slides
+              </a>
+              <a class="schedule-link" href="https://colab.research.google.com/drive/1OzCIbMjNPUs-UIDNJ6MkM3GQutDtvpzm">
+                <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Colab
+              </a>
+            </div>
           </td>
         </tr>
         <tr class="schedule-break">
@@ -862,6 +958,12 @@
           <td class="schedule-time">14:40 &ndash; 15:10</td>
           <td>
             <div class="schedule-title">Why do diffusion models learn to be local?</div>
+            <div class="schedule-links">
+              <a class="schedule-link" href="https://docs.google.com/presentation/d/1hVa8O0o1xhpVtu7_0wU4MGBJHNWtzgBPYyncpM_SStA/edit?usp=sharing">
+                <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                Slides
+              </a>
+            </div>
           </td>
         </tr>
         <tr class="schedule-break">
@@ -872,6 +974,12 @@
           <td class="schedule-time">15:20 &ndash; 16:00</td>
           <td>
             <div class="schedule-title">How do diffusion models learn and encode global structures?</div>
+            <div class="schedule-links">
+              <a class="schedule-link" href="https://docs.google.com/presentation/d/10pm77ZfmnGHmv6TYxqwhcSgfZyLNcVZuJOen_hexWl0/edit?usp=sharing">
+                <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                Slides
+              </a>
+            </div>
           </td>
         </tr>
         <tr class="schedule-break">
@@ -888,7 +996,13 @@
           <td class="schedule-time">17:00 &ndash; 19:00</td>
           <td>
             <div class="schedule-title">Analytic Diffusion Social</div>
-            <div class="schedule-desc">An informal gathering to chat about analytic diffusion models, right after the tutorial. On the terrace outside the Bluebird Ballroom (3rd floor, west-most side of the terrace). <a href="https://luma.com/nqd4kkml">RSVP on Luma</a>.</div>
+            <div class="schedule-desc">An informal gathering to chat about analytic diffusion models, right after the tutorial. On the terrace outside the Bluebird Ballroom (3rd floor, west-most side of the terrace).</div>
+            <div class="schedule-links">
+              <a class="schedule-link" href="https://luma.com/nqd4kkml">
+                <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                RSVP on Luma
+              </a>
+            </div>
           </td>
         </tr>
       </table>
