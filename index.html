@@ -452,6 +452,20 @@
       letter-spacing: 0.01em;
     }
 
+    .schedule-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 20px;
+    }
+
+    .schedule-head .schedule-speaker {
+      margin-top: 0;
+      text-align: right;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
     .schedule-title {
       font-weight: 600;
       color: var(--text);
@@ -757,6 +771,9 @@
       .schedule-time { width: 100px; font-size: 0.85rem; }
       .schedule-table td { font-size: 0.88rem; padding: 10px 0; }
 
+      .schedule-head { flex-direction: column; gap: 2px; }
+      .schedule-head .schedule-speaker { text-align: left; white-space: normal; margin-top: 2px; }
+
       .framework-box { padding: 24px; }
       .info-strip { gap: 10px 20px; }
 
@@ -864,7 +881,10 @@
         <tr>
           <td class="schedule-time">8:30 &ndash; 9:10</td>
           <td>
-            <div class="schedule-title">Intro + notations</div>
+            <div class="schedule-head">
+              <div class="schedule-title">Intro + notations</div>
+              <div class="schedule-speaker">by <a href="https://www.linkedin.com/in/artem-lukoianov/">Artem</a>, <a href="https://cscarv.github.io/">Chris</a></div>
+            </div>
             <div class="schedule-links">
               <a class="schedule-link" href="https://docs.google.com/presentation/d/1HEXJD60anmrCOJZaaB-917AwGVhYgTHg9FHJQ_waBdc/edit?usp=sharing">
                 <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -880,7 +900,10 @@
         <tr>
           <td class="schedule-time">9:20 &ndash; 10:30</td>
           <td>
-            <div class="schedule-title">What is the optimal denoiser? What is the impact of smoothing?</div>
+            <div class="schedule-head">
+              <div class="schedule-title">What is the optimal denoiser? What is the impact of smoothing?</div>
+              <div class="schedule-speaker">by <a href="https://chenyang.co/">Chenyang</a>, <a href="https://cscarv.github.io/">Chris</a></div>
+            </div>
             <div class="schedule-links">
               <a class="schedule-link" href="https://docs.google.com/presentation/d/1O8JBe-uJ4XsVfQLseJGwbT-Ja2ZntbZ74g1ImJfXt5c/edit?usp=sharing">
                 <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -904,9 +927,12 @@
         <tr>
           <td class="schedule-time">10:50 &ndash; 12:00</td>
           <td>
-            <div class="schedule-title">How far can the linear perspective get us?</div>
+            <div class="schedule-head">
+              <div class="schedule-title">How far can the linear perspective get us?</div>
+              <div class="schedule-speaker">by <a href="https://animadversio.github.io/">Binxu</a></div>
+            </div>
             <div class="schedule-links">
-              <a class="schedule-link" href="https://docs.google.com/presentation/d/1o8BAmLL3nDz7Q7TS87MsnmYDvR92Vl_F/edit?usp=sharing">
+              <a class="schedule-link" href="https://drive.google.com/file/d/1KrKyXzZ9ljWKO-Qi1bNmD0f0DC-fwGhw/view?usp=sharing">
                 <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                 Slides
               </a>
@@ -937,7 +963,10 @@
         <tr>
           <td class="schedule-time">13:30 &ndash; 14:30</td>
           <td>
-            <div class="schedule-title">Seeing generalization through locality</div>
+            <div class="schedule-head">
+              <div class="schedule-title">Seeing generalization through locality</div>
+              <div class="schedule-speaker">by <a href="https://scholar.google.com/citations?user=H-yl_JMAAAAJ&hl=en">Mason</a></div>
+            </div>
             <div class="schedule-links">
               <a class="schedule-link" href="https://docs.google.com/presentation/d/1O7nO3-erOxITI3HaPv6ZEITgyM79CbG8FOSRkNVxox8/edit?usp=sharing">
                 <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -957,7 +986,10 @@
         <tr>
           <td class="schedule-time">14:40 &ndash; 15:10</td>
           <td>
-            <div class="schedule-title">Why do diffusion models learn to be local?</div>
+            <div class="schedule-head">
+              <div class="schedule-title">Why do diffusion models learn to be local?</div>
+              <div class="schedule-speaker">by <a href="https://www.linkedin.com/in/artem-lukoianov/">Artem</a></div>
+            </div>
             <div class="schedule-links">
               <a class="schedule-link" href="https://docs.google.com/presentation/d/1hVa8O0o1xhpVtu7_0wU4MGBJHNWtzgBPYyncpM_SStA/edit?usp=sharing">
                 <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -973,7 +1005,10 @@
         <tr>
           <td class="schedule-time">15:20 &ndash; 16:00</td>
           <td>
-            <div class="schedule-title">How do diffusion models learn and encode global structures?</div>
+            <div class="schedule-head">
+              <div class="schedule-title">How do diffusion models learn and encode global structures?</div>
+              <div class="schedule-speaker">by <a href="https://scholar.google.com/citations?user=_b5JdjYAAAAJ&hl=en">Zahra</a></div>
+            </div>
             <div class="schedule-links">
               <a class="schedule-link" href="https://docs.google.com/presentation/d/10pm77ZfmnGHmv6TYxqwhcSgfZyLNcVZuJOen_hexWl0/edit?usp=sharing">
                 <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -989,7 +1024,10 @@
         <tr>
           <td class="schedule-time">16:10 &ndash; 17:00</td>
           <td>
-            <div class="schedule-title">Open question in the field + Q&amp;A</div>
+            <div class="schedule-head">
+              <div class="schedule-title">Open question in the field + Q&amp;A</div>
+              <div class="schedule-speaker" style="white-space: normal;">by <a href="https://www.linkedin.com/in/artem-lukoianov/">Artem</a>, <a href="https://chenyang.co/">Chenyang</a>, <a href="https://cscarv.github.io/">Chris</a>, <a href="https://animadversio.github.io/">Binxu</a>, <a href="https://scholar.google.com/citations?user=H-yl_JMAAAAJ&hl=en">Mason</a>, <a href="https://scholar.google.com/citations?user=_b5JdjYAAAAJ&hl=en">Zahra</a></div>
+            </div>
           </td>
         </tr>
         <tr>
@@ -1052,7 +1090,7 @@
         <div class="speaker-card">
           <img class="speaker-avatar" src="public/avatars/artem.png" alt="Artem Lukoianov" />
           <div class="speaker-info">
-            <h3><a href="https://lukoianov.com/">Artem Lukoianov</a></h3>
+            <h3><a href="https://www.linkedin.com/in/artem-lukoianov/">Artem Lukoianov</a></h3>
             <div class="speaker-affiliation">MIT CSAIL</div>
             <div class="speaker-bio">
               PhD student, author of <em>&ldquo;Locality in Image Diffusion Models Emerges from Data Statistics&rdquo;</em> (Spotlight, NeurIPS 2025).
